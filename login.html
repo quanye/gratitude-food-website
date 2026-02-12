@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Login | Gratitude Foodservice</title>
+  <meta name="description" content="Log in to your Gratitude Foodservice customer portal to manage orders and account details.">
+  <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/logos/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .login-header {
+      background: var(--color-white);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-5) 0;
+    }
+    .login-header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .login-header__logo img {
+      height: 40px;
+      width: auto;
+    }
+    .login-header__back {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: color 0.2s ease;
+    }
+    .login-header__back:hover {
+      color: var(--color-gold-hover);
+    }
+    .login-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8) var(--space-5);
+      background: var(--color-bg-alt);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: var(--space-8);
+    }
+    .login-card__icon {
+      width: 56px;
+      height: 56px;
+      background: var(--color-navy);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+    }
+    .login-card__icon svg {
+      color: var(--color-gold-light);
+    }
+    .login-card__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-navy);
+      margin-bottom: var(--space-2);
+    }
+    .login-card__subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-7);
+    }
+    .login-card .form-group {
+      margin-bottom: var(--space-5);
+    }
+    .login-card .form-input {
+      padding: 0.875rem 1rem;
+    }
+    .login-card .btn {
+      width: 100%;
+      padding: 0.875rem 1.75rem;
+    }
+    .login-card__forgot {
+      display: block;
+      text-align: center;
+      margin-top: var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-gold);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .login-card__forgot:hover {
+      color: var(--color-gold-hover);
+    }
+    .login-card__divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin: var(--space-6) 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    .login-card__divider::before,
+    .login-card__divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+    .login-card__help {
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .login-card__help a {
+      color: var(--color-gold);
+      font-weight: 500;
+    }
+    .login-card__help a:hover {
+      color: var(--color-gold-hover);
+    }
+    .login-footer {
+      background: var(--color-navy-dark);
+      padding: var(--space-5) 0;
+      text-align: center;
+    }
+    .login-footer p {
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+    }
+    .login-status {
+      margin-top: var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-align: center;
+      color: var(--color-error);
+    }
+    .password-group {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gray-500);
+      cursor: pointer;
+      padding: var(--space-1);
+    }
+    .password-toggle:hover {
+      color: var(--color-navy);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <!-- Header -->
+    <header class="login-header">
+      <div class="container login-header__inner">
+        <a href="index.html" class="login-header__logo" aria-label="Back to home">
+          <img src="assets/logos/logo-full-blue.svg" alt="Gratitude Distribution" width="200" height="55">
+        </a>
+        <a href="index.html" class="login-header__back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Home
+        </a>
+      </div>
+    </header>
+
+    <!-- Login Form -->
+    <main class="login-main">
+      <div class="login-card">
+        <div class="login-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h1 class="login-card__title">Customer Portal</h1>
+        <p class="login-card__subtitle">Sign in to manage your orders and account.</p>
+
+        <form id="login-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="login-email" class="form-label">Email Address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="you@restaurant.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password" class="form-label">Password</label>
+            <div class="password-group">
+              <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+              <button type="button" class="password-toggle" aria-label="Toggle password visibility" onclick="togglePassword()">
+                <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--gold" onclick="handleLogin()">Sign In</button>
+          <div class="login-status" id="login-status"></div>
+          <a href="#" class="login-card__forgot">Forgot your password?</a>
+        </form>
+
+        <div class="login-card__divider">or</div>
+
+        <div class="login-card__help">
+          <p>Don't have an account?<br><a href="index.html#contact">Contact us</a> to get started.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="login-footer">
+      <div class="container">
+        <p>&copy; 2025 Gratitude Distribution. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function togglePassword() {
+      var input = document.getElementById('login-password');
+      var icon = document.getElementById('eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        input.type = 'password';
+        icon.innerHTML = '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    }
+
+    function handleLogin() {
+      var status = document.getElementById('login-status');
+      status.textContent = 'Customer portal coming soon. Please contact us for assistance.';
+    }
+  </script>
+</body>
+</html>

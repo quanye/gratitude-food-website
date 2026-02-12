@@ -1,0 +1,14 @@
+{
+  "name": "Gratitude Foodservice",
+  "short_name": "Gratitude",
+  "icons": [
+    {
+      "src": "assets/logos/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#253551",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
