@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Categories | Gratitude Foodservice</title>
+  <meta name="description" content="Browse Gratitude Foodservice product categories — syrups, sauces, frozen beverages, teas, dairy alternatives, and more for QSRs and coffee shops.">
+  <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/logos/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Products Page Layout */
+    .products-page { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Page Header with navy background */
+    .page-header {
+      background: var(--color-navy);
+      padding: 6rem 0 3rem;
+      text-align: center;
+    }
+    .page-header__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: var(--space-3);
+    }
+    .page-header__subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-gray-300);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Sticky Nav for Products Page */
+    .products-nav {
+      background: var(--color-white);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-5) 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .products-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .products-nav__logo img {
+      height: 36px;
+      width: auto;
+    }
+    .products-nav__links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .products-nav__link {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-navy);
+      transition: color 0.2s ease;
+    }
+    .products-nav__link:hover {
+      color: var(--color-gold);
+    }
+    .products-nav__link--active {
+      color: var(--color-gold);
+    }
+
+    /* Category filter tabs */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      padding: var(--space-7) 0 var(--space-5);
+    }
+    .category-tab {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--color-border);
+      background: var(--color-white);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .category-tab:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold);
+    }
+    .category-tab--active {
+      background: var(--color-navy);
+      border-color: var(--color-navy);
+      color: var(--color-white);
+    }
+    .category-tab--active:hover {
+      background: var(--color-navy-light);
+      border-color: var(--color-navy-light);
+      color: var(--color-white);
+    }
+
+    /* Product Category Grid */
+    .categories-section {
+      flex: 1;
+      padding: 0 0 var(--space-10);
+      background: var(--color-bg-alt);
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+    }
+    @media (min-width: 640px) {
+      .categories-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .categories-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* Category Card */
+    .cat-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      text-align: center;
+    }
+    .cat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .cat-card__image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--color-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .cat-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .cat-card__emoji {
+      font-size: 3.5rem;
+    }
+    .cat-card__label {
+      padding: var(--space-4) var(--space-3);
+    }
+    .cat-card__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--color-navy);
+      margin-bottom: var(--space-1);
+    }
+    .cat-card__count {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* CTA Section */
+    .products-cta {
+      background: var(--color-navy);
+      padding: var(--space-10) 0;
+      text-align: center;
+    }
+    .products-cta__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: var(--space-3);
+    }
+    .products-cta__text {
+      color: var(--color-gray-300);
+      margin-bottom: var(--space-7);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Products Page Footer */
+    .products-footer {
+      background: var(--color-navy-dark);
+      padding: var(--space-7) 0;
+    }
+    .products-footer__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-5);
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .products-footer__inner {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+    .products-footer__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .products-footer__brand img {
+      height: 36px;
+      width: auto;
+    }
+    .products-footer__brand span {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--color-gray-300);
+    }
+    .products-footer__links {
+      display: flex;
+      gap: var(--space-6);
+    }
+    .products-footer__links a {
+      font-size: var(--text-sm);
+      color: var(--color-gray-300);
+      transition: color 0.2s ease;
+    }
+    .products-footer__links a:hover {
+      color: var(--color-gold);
+    }
+    .products-footer__copy {
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+    }
+  </style>
+</head>
+<body>
+  <div class="products-page">
+    <!-- Navigation -->
+    <nav class="products-nav">
+      <div class="container products-nav__inner">
+        <a href="index.html" class="products-nav__logo">
+          <img src="assets/logos/logo-full-blue@2x.png" alt="Gratitude Distribution" width="200" height="55">
+        </a>
+        <div class="products-nav__links">
+          <a href="index.html" class="products-nav__link">Home</a>
+          <a href="products.html" class="products-nav__link products-nav__link--active">Products</a>
+          <a href="index.html#contact" class="products-nav__link">Contact</a>
+          <a href="login.html" class="products-nav__link">Login</a>
+          <a href="index.html#contact" class="btn btn--gold btn--sm">Become a Customer</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <header class="page-header">
+      <div class="container">
+        <h1 class="page-header__title">Product Categories</h1>
+        <p class="page-header__subtitle">Everything your QSR or coffee shop needs — from syrups and sauces to packaging and supplies.</p>
+      </div>
+    </header>
+
+    <!-- Category Tabs -->
+    <div class="categories-section">
+      <div class="container">
+        <div class="category-tabs">
+          <button class="category-tab category-tab--active" data-filter="all">All Categories</button>
+          <button class="category-tab" data-filter="beverages">Beverages</button>
+          <button class="category-tab" data-filter="food">Food & Ingredients</button>
+          <button class="category-tab" data-filter="packaging">Packaging</button>
+          <button class="category-tab" data-filter="supplies">Supplies</button>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="categories-grid" id="categories-grid">
+
+          <!-- Beverages -->
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🧴</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Syrups & Flavors</h3>
+              <p class="cat-card__count">Monin, Torani & more</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍵</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Tea & Matcha</h3>
+              <p class="cat-card__count">Loose leaf, bags & powder</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">☕</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Coffee & Espresso</h3>
+              <p class="cat-card__count">Beans, grounds & cold brew</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🧊</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Frozen Blended Mixes</h3>
+              <p class="cat-card__count">Smoothies, frappes & slush</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥛</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Dairy & Non-Dairy Milks</h3>
+              <p class="cat-card__count">Oat, almond, soy & whole</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🧋</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Boba & Bubble Tea</h3>
+              <p class="cat-card__count">Tapioca, jelly & popping boba</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍋</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Juice & Lemonade</h3>
+              <p class="cat-card__count">Fresh, concentrate & pressed</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="beverages">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍫</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Chocolate & Caramel Sauces</h3>
+              <p class="cat-card__count">Drizzle, pump & squeeze</p>
+            </div>
+          </div>
+
+          <!-- Food & Ingredients -->
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🫐</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Acai & Pitaya</h3>
+              <p class="cat-card__count">Frozen packs & purees</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍓</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Fresh & Frozen Fruit</h3>
+              <p class="cat-card__count">Berries, mango, banana & more</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍪</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Cookies & Baked Goods</h3>
+              <p class="cat-card__count">Pastries, muffins & bars</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍦</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Ice Cream & Frozen Desserts</h3>
+              <p class="cat-card__count">Soft serve, scoopable & bars</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥜</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Toppings & Granola</h3>
+              <p class="cat-card__count">Nuts, seeds, sprinkles & more</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥪</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Grab & Go Snacks</h3>
+              <p class="cat-card__count">Sandwiches, wraps & salads</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍳</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Breakfast Items</h3>
+              <p class="cat-card__count">Egg bites, bowls & protein</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="food">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🌶️</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Sauces & Condiments</h3>
+              <p class="cat-card__count">Hot sauce, mayo, ketchup & more</p>
+            </div>
+          </div>
+
+          <!-- Packaging -->
+          <div class="cat-card" data-category="packaging">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥤</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Cups & Lids</h3>
+              <p class="cat-card__count">Hot, cold & custom printed</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="packaging">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥡</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Bowls & Containers</h3>
+              <p class="cat-card__count">Acai bowls, soup cups & deli</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="packaging">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🛍️</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Bags & Totes</h3>
+              <p class="cat-card__count">Paper, kraft & branded</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="packaging">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🍕</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Pizza Boxes</h3>
+              <p class="cat-card__count">Custom print & stock</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="packaging">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🥄</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Utensils & Napkins</h3>
+              <p class="cat-card__count">Forks, spoons, straws & more</p>
+            </div>
+          </div>
+
+          <!-- Supplies -->
+          <div class="cat-card" data-category="supplies">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🧹</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Janitorial & Cleaning</h3>
+              <p class="cat-card__count">Sanitizer, soap & towels</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="supplies">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">🧤</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Gloves & Safety</h3>
+              <p class="cat-card__count">Nitrile, latex & vinyl</p>
+            </div>
+          </div>
+
+          <div class="cat-card" data-category="supplies">
+            <div class="cat-card__image">
+              <span class="cat-card__emoji">📦</span>
+            </div>
+            <div class="cat-card__label">
+              <h3 class="cat-card__title">Smallwares & Equipment</h3>
+              <p class="cat-card__count">Blenders, scales & tools</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="products-cta">
+      <div class="container">
+        <h2 class="products-cta__title">Don't see what you need?</h2>
+        <p class="products-cta__text">We source from hundreds of vendors. Tell us what you're looking for and we'll get it for you.</p>
+        <a href="index.html#contact" class="btn btn--gold btn--lg">Become a Customer</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="products-footer">
+      <div class="container products-footer__inner">
+        <div class="products-footer__brand">
+          <img src="assets/logos/logo-white.svg" alt="Gratitude Distribution">
+          <span>Gratitude Distribution</span>
+        </div>
+        <div class="products-footer__links">
+          <a href="index.html">Home</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="login.html">Login</a>
+        </div>
+        <p class="products-footer__copy">&copy; 2025 Gratitude Distribution. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Category filter tabs
+    (function() {
+      var tabs = document.querySelectorAll('.category-tab');
+      var cards = document.querySelectorAll('.cat-card');
+
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var filter = this.getAttribute('data-filter');
+
+          // Update active tab
+          tabs.forEach(function(t) { t.classList.remove('category-tab--active'); });
+          this.classList.add('category-tab--active');
+
+          // Filter cards
+          cards.forEach(function(card) {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = '';
+              card.style.animation = 'fadeIn 0.3s ease forwards';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Fade in animation
+      var style = document.createElement('style');
+      style.textContent = '@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }';
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>
